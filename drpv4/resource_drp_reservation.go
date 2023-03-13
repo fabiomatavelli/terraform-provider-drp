@@ -86,6 +86,7 @@ func resourceReservation() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "Reservation token",
 				Required:    true,
+				Sensitive:   true,
 			},
 			"options": {
 				Type:        schema.TypeList,
