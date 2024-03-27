@@ -1,6 +1,14 @@
 package drpv4
 
-import "math/rand"
+import (
+	"context"
+	"fmt"
+	"math/rand"
+
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+	"gitlab.com/rackn/provision/v4/api"
+)
 
 // expandStringList converts a interface{} to a []string
 func expandStringList(v interface{}) []string {
@@ -34,4 +42,22 @@ func randomString(n int) string {
 		b[i] = letters[rand.Intn(len(letters))]
 	}
 	return string(b)
+}
+
+func resourceGenericConfigure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) *api.Client {
+	if req.ProviderData == nil {
+		tflog.Error(ctx, "Missing provider data")
+		return nil
+	}
+
+	client, ok := req.ProviderData.(*Config)
+	if !ok {
+		resp.Diagnostics.AddError(
+			"Unexpected Resource Configure Type",
+			fmt.Sprintf("Expected *Config, got %T. Please report this issue to the provider developers.", req.ProviderData),
+		)
+		return nil
+	}
+
+	return client.session
 }

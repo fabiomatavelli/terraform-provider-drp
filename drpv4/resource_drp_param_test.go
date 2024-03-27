@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-type ParamResource struct {
+type ParamResourceTest struct {
 	ResourceName  string
 	Name          string
 	Description   string
@@ -17,7 +17,7 @@ type ParamResource struct {
 	Secure        bool
 }
 
-func testAccParamResourceConfig(param ParamResource) string {
+func testAccParamResourceConfig(param ParamResourceTest) string {
 	return fmt.Sprintf(`
 		resource "drp_param" "%s" {
 			name = "%s"
@@ -35,7 +35,7 @@ func TestAccParamResource(t *testing.T) {
 		PreCheck:                 func() { testAccPreCheck(t) },
 		Steps: []resource.TestStep{
 			{
-				Config: testAccParamResourceConfig(ParamResource{
+				Config: testAccParamResourceConfig(ParamResourceTest{
 					ResourceName:  "test",
 					Name:          "test",
 					Description:   "test",
@@ -53,7 +53,7 @@ func TestAccParamResource(t *testing.T) {
 				),
 			},
 			{
-				Config: testAccParamResourceConfig(ParamResource{
+				Config: testAccParamResourceConfig(ParamResourceTest{
 					ResourceName:  "test",
 					Name:          "test123",
 					Documentation: "test",
@@ -69,7 +69,7 @@ func TestAccParamResource(t *testing.T) {
 				),
 			},
 			{
-				Config: testAccParamResourceConfig(ParamResource{
+				Config: testAccParamResourceConfig(ParamResourceTest{
 					ResourceName:  "test",
 					Name:          "test123",
 					Description:   "testing some change",
@@ -87,7 +87,7 @@ func TestAccParamResource(t *testing.T) {
 				),
 			},
 			{
-				Config: testAccParamResourceConfig(ParamResource{
+				Config: testAccParamResourceConfig(ParamResourceTest{
 					ResourceName: "test2",
 					Name:         "test2",
 					Description:  "",
@@ -104,7 +104,7 @@ func TestAccParamResource(t *testing.T) {
 				),
 			},
 			{
-				Config: testAccParamResourceConfig(ParamResource{
+				Config: testAccParamResourceConfig(ParamResourceTest{
 					ResourceName: "test3",
 					Name:         "test3",
 					Description:  "",
@@ -122,7 +122,7 @@ func TestAccParamResource(t *testing.T) {
 				),
 			},
 			{
-				Config: testAccParamResourceConfig(ParamResource{
+				Config: testAccParamResourceConfig(ParamResourceTest{
 					ResourceName: "test4",
 					Name:         "test4#",
 					Description:  "",
